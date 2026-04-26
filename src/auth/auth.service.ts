@@ -10,4 +10,13 @@ import { RegisterDto } from './dto/register.dto';
 import * as bcrypt from 'bcrypt'
 
 @Injectable()
-export class AuthService {}
+export class AuthService {
+    constructor(
+        private prisma: PrismaService,
+        private jwtService: JwtService
+    ) {}
+
+    async register(dto: RegisterDto ){
+        //check id the user with email exist
+    }
+}
