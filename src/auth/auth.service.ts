@@ -8,12 +8,14 @@ import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
+    private config: ConfigService,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -52,7 +54,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const passwordMatch = await bcrypt.compare(dto.password, user.password)
+    const passwordMatch = await bcrypt.compare(dto.password, user.password);
 
     if (!passwordMatch) {
       throw new UnauthorizedException('Invalid credentials');
@@ -70,7 +72,7 @@ export class AuthService {
     const payload = { sub: userId, email };
 
     return this.jwtService.signAsync(payload, {
-      secret: process.env.JWT_SECRET,
+      secret: this.config.get<string>('JWT_SECRET'),
       expiresIn: '7d',
     });
   }
