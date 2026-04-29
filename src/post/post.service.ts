@@ -14,8 +14,7 @@ import { ConfigService } from '@nestjs/config';
 export class PostService {
     constructor(
         private prisma: PrismaService,
-        private jwtService: JwtService,
-        private config: ConfigService,
+       
     ){}
 
     async createPost(dto: CreatePostDto, authorId: string) {
