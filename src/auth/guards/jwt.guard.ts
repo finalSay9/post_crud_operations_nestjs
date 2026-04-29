@@ -5,6 +5,7 @@ import {
   ExecutionContext,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 
@@ -28,7 +29,7 @@ export class JwtGuard implements CanActivate {
     try {
       // verify the token and attach the payload to the request
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: process.env.JWT_SECRET,
+        secret: this.config.get<string>('JWT_SECRET'),
       });
 
       request['user'] = payload; // { sub: userId, email }

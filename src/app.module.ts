@@ -7,7 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // 👈 makes process.env available everywhere in the app
+      isGlobal: true, 
     }),
     PrismaModule,
     AuthModule],
