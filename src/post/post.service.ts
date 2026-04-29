@@ -18,13 +18,19 @@ export class PostService {
         private config: ConfigService,
     ){}
 
-    async createPost(dto: CreatePostDto) {
+    async createPost(dto: CreatePostDto, authorId: string) {
         const post = await this.prisma.post.create({
             data: {
                 title: dto.title,
                 content: dto.content,
-            }
-        })
+                authorId: authorId,
+            },
+        });
+
+        return {
+          message: 'post created successfully',
+          post,
+        };
 
     }
 }
