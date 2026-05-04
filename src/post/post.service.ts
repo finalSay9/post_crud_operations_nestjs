@@ -3,6 +3,7 @@ import {
   ConflictException,
   UnauthorizedException,
   NotFoundException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
@@ -45,7 +46,11 @@ export class PostService {
             throw new NotFoundException(`post with ${postId} id not found`)
         }
         //if post belong to some else throw error
-        
+        if(post.authorId !== userId) {
+          throw new ForbiddenException('you can only edit your own post')
+
+        }
+
         const updatePost = await this.prisma.post.create({
             data: {
                 title: updateDto.title,
