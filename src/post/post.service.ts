@@ -2,6 +2,7 @@ import {
   Injectable,
   ConflictException,
   UnauthorizedException,
+  NotFoundException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
@@ -40,6 +41,10 @@ export class PostService {
             where: {id: postId}
         });
         //if post dosent exist
+        if(!post) {
+            throw new NotFoundException(`post with ${postId} id not found`)
+        }
+        //if post belong to some else throw error
         
         const updatePost = await this.prisma.post.create({
             data: {
