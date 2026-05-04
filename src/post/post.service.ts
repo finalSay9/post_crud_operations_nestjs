@@ -35,7 +35,7 @@ export class PostService {
     }
     //update post
     async updatePost(updateDto: UpdatePostDto, userId: string, postId: string){
-        const updatePost = await this.prisma.updatePost.create({
+        const updatePost = await this.prisma.post.create({
             data: {
                 title: updateDto.title,
                 content: updateDto.content,
