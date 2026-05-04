@@ -35,6 +35,12 @@ export class PostService {
     }
     //update post
     async updatePost(updateDto: UpdatePostDto, userId: string, postId: string){
+        //find the post first
+        const post = await this.prisma.post.findUnique({
+            where: {id: postId}
+        });
+        //if post dosent exist
+        
         const updatePost = await this.prisma.post.create({
             data: {
                 title: updateDto.title,
