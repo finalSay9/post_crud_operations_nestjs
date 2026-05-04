@@ -6,6 +6,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePostDto } from './dto/createPost.dto';
+import { UpdatePostDto } from './dto/updatePost.dto';
 
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
@@ -31,5 +32,20 @@ export class PostService {
           post,
         };
 
+    }
+    //update post
+    async updatePost(updateDto: UpdatePostDto, userId: string, postId: string){
+        const updatePost = await this.prisma.updatePost.create({
+            data: {
+                title: updateDto.title,
+                content: updateDto.content,
+                userId: userId,
+                postId: postId
+            }
+        });
+        return {
+            message: "updated successfully",
+            updatePost
+        }
     }
 }
