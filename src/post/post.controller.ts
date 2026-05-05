@@ -45,9 +45,9 @@ export class PostController {
     @ApiResponse({ status: 201, description: 'post updated successfully' })
     deletePost(
     @Param('id') postId: string,
-    @GetUser('sub') userId)
+    @GetUser('sub') userId: string)
      {
-       return this.postService.deletePost(postId,userId) 
+       return this.postService.deletePost(userId,postId) 
     }
 
 
