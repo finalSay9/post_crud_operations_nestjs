@@ -24,17 +24,18 @@ export class PostController {
         return this.postService.createPost(postDto, userId)
 
     }
-    @Put('updatePost')
+    @Put(':id')
     @UseGuards(JwtGuard)                    // 👈 protect the route
     @ApiBearerAuth('access-token')   
     @ApiOperation({ summary: 'create a post' })
     @ApiResponse({ status: 201, description: 'post updated successfully' })
     updatePost(
+    @Param() postId: string,
     @Body() updatePost: UpdatePostDto,
     @GetUser('sub') userId: string
 
      ){
-        
+       return this.postService.updatePost(updatePost, userId)
      }
 
 
