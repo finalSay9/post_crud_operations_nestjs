@@ -1,4 +1,4 @@
-import { Controller, Body, Post, HttpCode, HttpStatus, UseGuards, Put, Param } from '@nestjs/common';
+import { Controller, Body, Post, HttpCode, HttpStatus, UseGuards, Put, Param, Delete } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/createPost.dto';
@@ -25,7 +25,7 @@ export class PostController {
 
     }
     @Put(':id')
-    @UseGuards(JwtGuard)                    // 👈 protect the route
+    @UseGuards(JwtGuard)                    
     @ApiBearerAuth('access-token')   
     @ApiOperation({ summary: 'create a post' })
     @ApiResponse({ status: 201, description: 'post updated successfully' })
@@ -37,6 +37,18 @@ export class PostController {
      ){
        return this.postService.updatePost(updatePost, userId, postId)
      }
+
+    @Delete(':id')
+    @UseGuards(JwtGuard)                    
+    @ApiBearerAuth('access-token')   
+    @ApiOperation({ summary: 'create a post' })
+    @ApiResponse({ status: 201, description: 'post updated successfully' })
+    deletePost(
+    @Param('id') postId: string,
+    @GetUser('sub') userId)
+     {
+       return this.postService.deletePost(postId,userId) 
+    }
 
 
 }

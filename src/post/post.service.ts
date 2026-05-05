@@ -63,4 +63,26 @@ export class PostService {
             updatePost
         }
     }
+
+    async deletePost(userId: string, postId: string) {
+        //check if the post is available first
+        const post = await this.prisma.post.findUnique({
+            where: {id: postId}
+        });
+        if(!post) {
+            throw new NotFoundException(`the post with id ${postId} not available`)
+        }
+
+        if(post.authorId !== userId) {
+            throw new ForbiddenException('You Can Only Delete Your Own Post')
+        }
+
+        await this.prisma.post.delete({
+            where: {id: postId}
+        })
+
+        return {
+            message: 'Deleted Successfully'
+        }
+    }
 }
