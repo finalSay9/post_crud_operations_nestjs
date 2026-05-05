@@ -1,4 +1,4 @@
-import { Controller, Body, Post, HttpCode, HttpStatus, UseGuards, Put } from '@nestjs/common';
+import { Controller, Body, Post, HttpCode, HttpStatus, UseGuards, Put, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/createPost.dto';
@@ -30,12 +30,12 @@ export class PostController {
     @ApiOperation({ summary: 'create a post' })
     @ApiResponse({ status: 201, description: 'post updated successfully' })
     updatePost(
-    @Param() postId: string,
+    @Param('id') postId: string,
     @Body() updatePost: UpdatePostDto,
     @GetUser('sub') userId: string
 
      ){
-       return this.postService.updatePost(updatePost, userId)
+       return this.postService.updatePost(updatePost, userId, postId)
      }
 
 
