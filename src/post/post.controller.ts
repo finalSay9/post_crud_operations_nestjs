@@ -1,9 +1,10 @@
-import { Controller, Body, Post, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
+import { Controller, Body, Post, HttpCode, HttpStatus, UseGuards, Put } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/createPost.dto';
 import { GetUser } from 'src/auth/decorators/getUser.decorator';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { UpdatePostDto } from './dto/updatePost.dto';
 
 
 @ApiTags('post')
@@ -23,5 +24,18 @@ export class PostController {
         return this.postService.createPost(postDto, userId)
 
     }
+    @Put('updatePost')
+    @UseGuards(JwtGuard)                    // 👈 protect the route
+    @ApiBearerAuth('access-token')   
+    @ApiOperation({ summary: 'create a post' })
+    @ApiResponse({ status: 201, description: 'post updated successfully' })
+    updatePost(
+    @Body() updatePost: UpdatePostDto,
+    @GetUser('sub') userId: string
+
+     ){
+        
+     }
+
 
 }

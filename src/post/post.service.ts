@@ -51,12 +51,11 @@ export class PostService {
 
         }
 
-        const updatePost = await this.prisma.post.create({
+        const updatePost = await this.prisma.post.update({
+            where: {id: postId},
             data: {
                 title: updateDto.title,
                 content: updateDto.content,
-                userId: userId,
-                postId: postId
             }
         });
         return {
