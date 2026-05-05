@@ -1,3 +1,47 @@
+flowchart TD
+    Client[Client Apps (Web / Mobile)]
+
+    Gateway[API Gateway]
+
+    Auth[Auth Service]
+    Users[Users Service]
+    Chat[Chat Service]
+    Messages[Messages Service]
+    Notif[Notifications Service]
+    Presence[Presence Service]
+
+    DB1[(PostgreSQL - Auth)]
+    DB2[(PostgreSQL - Users)]
+    DB3[(PostgreSQL - Chat)]
+    DB4[(PostgreSQL - Messages)]
+    DB5[(PostgreSQL - Notifications)]
+
+    Redis[(Redis)]
+
+    Client -->|HTTP / WS| Gateway
+
+    Gateway --> Auth
+    Gateway --> Users
+    Gateway --> Chat
+    Gateway --> Messages
+
+    Auth --> DB1
+    Users --> DB2
+    Chat --> DB3
+    Messages --> DB4
+    Notif --> DB5
+
+    Messages -->|Publish Events| Redis
+    Chat -->|Publish Events| Redis
+
+    Redis --> Notif
+    Redis --> Presence
+    Redis --> Gateway
+
+    Presence --> Redis
+
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
